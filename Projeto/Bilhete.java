@@ -2,70 +2,82 @@ package Projeto;
 
 public class Bilhete {
     private String user, cpf;
-	String nomeFilme;
-	String horário;
-	private int sala;
-	private double valor;
-	
-	public Bilhete(Usuario a, Sessao se, Compra c, Sala s) {
-		this.user = a.getUser();
-		this.cpf = a.getCpf();
-		this.nomeFilme = c.getNomeDoFilme();
-		this.horário = s.getListaSessao()[c.getPosicaoLista()];
-		this.sala = c.getNumeroDaSala();
-		this.valor = se.getValor();
-	}
+    String nomeFilme;
+    String horário;
+    String cadeira;
+    private int sala;
+    private double valor;
 
-	public String toString() {
-		return "Bilhete [user=" + user + ", cpf=" + cpf + ", nomeFilme=" + nomeFilme + ", horário=" + horário
-				+ ", sala=" + sala + ", valor=" + valor + "]";
-	}
+    public Bilhete(Usuario a, Compra c, Sala s) {
+        this.user = a.getUser();
+        this.cpf = a.getCpf();
+        this.nomeFilme = c.getListaQuantidadeNomeFilme()[c.getContUniversal()];
+        this.horário = s.getListaSessao()[c.getListaQuantidadeHorario()[c.getContUniversal()]];
+        this.sala = c.getListaQuantidadeNumeroDaSala()[c.getContUniversal()];
+        this.valor = c.getListaQuantidadePrecoBilhete()[c.getContUniversal()];
+        this.cadeira = s.getListaQuantidadeCadeiras()[c.getContUniversal()];
+    }
 
-	public String getUser() {
-		return user;
-	}
+    public String toString() {
+        return "Bilhete [user=" + user + ", cpf=" + cpf + ", nomeFilme=" + nomeFilme
+                + ", horário=" + horário
+                + ", cadeira=" + cadeira + ", sala=" + sala + ", valor=" + valor +
+                "]";
+    }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+    public String getCadeira() {
+        return cadeira;
+    }
 
-	public String getCpf() {
-		return cpf;
-	}
+    public void setCadeira(String cadeira) {
+        this.cadeira = cadeira;
+    }
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
+    public String getUser() {
+        return user;
+    }
 
-	public String getNomeFilme() {
-		return nomeFilme;
-	}
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-	public void setNomeFilme(String nomeFilme) {
-		this.nomeFilme = nomeFilme;
-	}
+    public String getCpf() {
+        return cpf;
+    }
 
-	public String getHorário() {
-		return horário;
-	}
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
-	public void setHorário(String horário) {
-		this.horário = horário;
-	}
+    public String getNomeFilme() {
+        return nomeFilme;
+    }
 
-	public int getSala() {
-		return sala;
-	}
+    public void setNomeFilme(String nomeFilme) {
+        this.nomeFilme = nomeFilme;
+    }
 
-	public void setSala(int sala) {
-		this.sala = sala;
-	}
+    public String getHorário() {
+        return horário;
+    }
 
-	public double getValor() {
-		return valor;
-	}
+    public void setHorário(String horário) {
+        this.horário = horário;
+    }
 
-	public void setValor(double valor) {
-		this.valor = valor;
-	}
+    public int getSala() {
+        return sala;
+    }
+
+    public void setSala(int sala) {
+        this.sala = sala;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
 }
