@@ -5,7 +5,7 @@ public class Filme {
     private String duracao;
     private String sinopse;
     private double valor = 0, nota = 0;
-    private Critico critica[] = new Critico[100];
+    private Critica critica[] = new Critica[100];
     private int qtdCriticos = 0;
 
     public Filme(String n) {
@@ -64,11 +64,11 @@ public class Filme {
         this.qtdCriticos = qtdCriticos;
     }
 
-    public Critico[] getCritica() {
+    public Critica[] getCritica() {
         return critica;
     }
 
-    public void setCritica(Critico critica, int i) {
+    public void setCritica(Critica critica, int i) {
         this.critica[i] = critica;
     }
 
