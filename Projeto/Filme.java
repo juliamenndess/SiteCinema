@@ -79,4 +79,5 @@ public class Filme {
     public void setNota(double nota) {
         this.nota = nota;
     }
+
 }

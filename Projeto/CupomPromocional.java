@@ -1,9 +1,9 @@
 package Projeto;
 
 public enum CupomPromocional {
-    Individual("Segunda a sexta", 0.8),
-    Casal("Feriado", 1.5),
-    Trio("Sábado e domingo", 2.5);
+    Individual("Individual", 1),
+    Casal("Casal", 0.5),
+    Trio("Trio", 0.25);
 
     private final String dias;
     private final double multiplicadorValorIngresso;

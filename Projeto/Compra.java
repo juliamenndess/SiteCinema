@@ -2,21 +2,23 @@ package Projeto;
 
 import java.util.Scanner;
 
+import java.time.LocalDateTime;
+
+import java.time.format.DateTimeFormatter;
+
 public class Compra {
     Sala sala = new Sala();
     Sessao sessao = new Sessao();
     String[] Comidas = new String[1000];
     private int contComida = 0;
-    private String pipoca;
-    private String doce;
-    private String garrafa;
-    private String bebida;
-    private String brinquedo;
     private int numeroDaSala, horarioDoFilme;
     private String nomeDoFilme;
     private double precoComida;
     private double precoBilhete;
     private String posicaoDaCadeira;
+    private double precoBilheteTotal;
+    private int ContQuantidade = 0;
+    private int cloneContQuantidade = 0;
     private int quantidadeBilhetesQueCompra;
     private int ListaQuantidadeBilhete[] = new int[1000];
     private String ListaQuantidadeNomeFilme[] = new String[1000];
@@ -24,7 +26,6 @@ public class Compra {
     private int ListaQuantidadeNumeroDaSala[] = new int[1000];
     private int ListaQuantidadeHorario[] = new int[1000];
     private int ContUniversal = 0;
-
     Scanner in = new Scanner(System.in);
 
     public String getPosicaoDaCadeira() {
@@ -41,46 +42,6 @@ public class Compra {
 
     public void setNomeDoFilme(String nomeDoFilme) {
         this.nomeDoFilme = nomeDoFilme;
-    }
-
-    public String getPipoca() {
-        return pipoca;
-    }
-
-    public void setPipoca(String pipoca) {
-        this.pipoca = pipoca;
-    }
-
-    public String getDoce() {
-        return doce;
-    }
-
-    public void setDoce(String doce) {
-        this.doce = doce;
-    }
-
-    public String getGarrafa() {
-        return garrafa;
-    }
-
-    public void setGarrafa(String garrafa) {
-        this.garrafa = garrafa;
-    }
-
-    public String getBrinquedo() {
-        return brinquedo;
-    }
-
-    public void setBrinquedo(String brinquedo) {
-        this.brinquedo = brinquedo;
-    }
-
-    public String getBebida() {
-        return bebida;
-    }
-
-    public void setBebida(String bebida) {
-        this.bebida = bebida;
     }
 
     public int getHorarioDoFilme() {
@@ -203,6 +164,14 @@ public class Compra {
         this.quantidadeBilhetesQueCompra = quantidadeBilhetesQueCompra;
     }
 
+    public int getContQuantidade() {
+        return ContQuantidade;
+    }
+
+    public void setContQuantidade(int contQuantidade) {
+        ContQuantidade = contQuantidade;
+    }
+
     public Produtos retorno(int opcoes) {
         if (opcoes == 1) {
             return Produtos.PIPOCA;
@@ -227,6 +196,7 @@ public class Compra {
         int resposta;
         int resposta2;
         do {
+            System.out.println();
             System.out.println("Escolha o que você deseja comprar: ");
             System.out.println("1- " + Pipoca + "\n2- " + Doce + "\n3- " + Garrafa +
                     "\n4- " + Brinquedo + "\n5- " + Bebidas);
@@ -277,7 +247,7 @@ public class Compra {
     }
 
     public void exibirSalas() {
-        System.out.println("Opções das salas: ");
+        System.out.println("Opções das salas(o preço varia dependendo da sala): ");
         System.out.println("1- " + Salas.Sala.getNome());
         System.out.println("2- " + Salas.Sala3D.getNome());
         System.out.println("3- " + Salas.SalaXD.getNome());
@@ -288,10 +258,11 @@ public class Compra {
     public void valorBilhetes(int quantidadedeBilhetes, double multiplicador, double multiplicadorSala) {
         if (quantidadedeBilhetes == 1 || quantidadedeBilhetes == 2 ||
                 quantidadedeBilhetes == 3) {
-            setPrecoBilhete(multiplicadorSala * multiplicador * 20 +
-                    getPrecoBilhete());
+            setPrecoBilhete(multiplicadorSala * multiplicador * 20);
+            precoBilheteTotal = precoBilheteTotal + precoBilhete;
         } else {
-            setPrecoBilhete(quantidadedeBilhetes * 20 + getPrecoBilhete());
+            setPrecoBilhete(quantidadedeBilhetes * 20);
+            precoBilheteTotal = precoBilheteTotal + precoBilhete;
         }
     }
 
@@ -307,24 +278,28 @@ public class Compra {
         }
     }
 
-    public void compraBilhete() {
+    public void compraBilhete() throws VendasException {
         int aux;
-        int verificar;
         double delta;
-        String resposta;
         System.out.println("Quantos Bilhetes desejas comprar? ");
         quantidadeBilhetesQueCompra = in.nextInt();
-        ListaQuantidadeBilhete[ContUniversal] = quantidadeBilhetesQueCompra;
+        ListaQuantidadeBilhete[ContQuantidade] = quantidadeBilhetesQueCompra;
+        cloneContQuantidade = ContQuantidade;
         aux = quantidadeBilhetesQueCompra;
         delta = cupomPromocional(aux);
         do {
             exibirSalas();
             numeroDaSala = in.nextInt();
-            ListaQuantidadeNumeroDaSala[ContUniversal] = numeroDaSala;
             if (numeroDaSala == 1) {
                 sala.exibirSala1();
                 System.out.println("Escolha o filme: ");
                 this.horarioDoFilme = in.nextInt();
+                if (ContUniversal == 0) {
+                    validar();
+                } else {
+                    validar2();
+                }
+                ListaQuantidadeNumeroDaSala[ContUniversal] = numeroDaSala;
                 ListaQuantidadeHorario[ContUniversal] = horarioDoFilme;
                 if (horarioDoFilme == 0) {
                     nomeDoFilme = sessao.getFilme1();
@@ -343,21 +318,28 @@ public class Compra {
                 System.out.println("Digite qual cadeira desejas: (Ex. A5 ouB11)");
                 in.nextLine();
                 posicaoDaCadeira = in.nextLine();
-                verificar = sala.preencherCadeira(posicaoDaCadeira, 1,
+                sala.preencherCadeira(posicaoDaCadeira, 1,
                         getHorarioDoFilme(), ContUniversal);
-                if (verificar == 0) {
-                    System.out.println("Cadeira escolhido com sucesso!");
-                    System.out.println("Boa compra! Obrigado");
-                    System.out.println("");
-                    valorBilhetes(aux, Salas.Sala.getMultiplicador(), delta);
-                    ListaQuantidadePrecoBilhete[ContUniversal] = precoBilhete;
+                if (ContUniversal == 0) {
+                    validar();
                 } else {
-                    quantidadeBilhetesQueCompra++;
+                    validar2();
                 }
+                System.out.println("Cadeira escolhido com sucesso!");
+                System.out.println("Boa compra! Obrigado");
+                System.out.println("");
+                valorBilhetes(aux, Salas.Sala.getMultiplicador(), delta);
+                ListaQuantidadePrecoBilhete[ContUniversal] = precoBilhete;
             } else if (numeroDaSala == 2) {
                 sala.exibirSala2();
                 System.out.println("Escolha o filme: ");
                 this.horarioDoFilme = in.nextInt();
+                if (ContUniversal == 0) {
+                    validar();
+                } else {
+                    validar2();
+                }
+                ListaQuantidadeNumeroDaSala[ContUniversal] = numeroDaSala;
                 ListaQuantidadeHorario[ContUniversal] = horarioDoFilme;
                 if (horarioDoFilme == 0) {
                     nomeDoFilme = sessao.getFilme2();
@@ -376,21 +358,28 @@ public class Compra {
                 System.out.println("Digite qual cadeira desejas: (Ex. A5 ouB11)");
                 in.nextLine();
                 posicaoDaCadeira = in.nextLine();
-                verificar = sala.preencherCadeira(posicaoDaCadeira, 2,
+                sala.preencherCadeira(posicaoDaCadeira, 2,
                         getHorarioDoFilme(), ContUniversal);
-                if (verificar == 0) {
-                    System.out.println("Cadeira escolhido com sucesso!");
-                    System.out.println("Boa compra! Obrigado");
-                    System.out.println("");
-                    valorBilhetes(aux, Salas.Sala.getMultiplicador(), delta);
-                    ListaQuantidadePrecoBilhete[ContUniversal] = precoBilhete;
+                if (ContUniversal == 0) {
+                    validar();
                 } else {
-                    quantidadeBilhetesQueCompra++;
+                    validar2();
                 }
+                System.out.println("Cadeira escolhido com sucesso!");
+                System.out.println("Boa compra! Obrigado");
+                System.out.println("");
+                valorBilhetes(aux, Salas.Sala.getMultiplicador(), delta);
+                ListaQuantidadePrecoBilhete[ContUniversal] = precoBilhete;
             } else if (numeroDaSala == 3) {
                 sala.exibirSala3();
                 System.out.println("Escolha o filme: ");
                 this.horarioDoFilme = in.nextInt();
+                if (ContUniversal == 0) {
+                    validar();
+                } else {
+                    validar2();
+                }
+                ListaQuantidadeNumeroDaSala[ContUniversal] = numeroDaSala;
                 ListaQuantidadeHorario[ContUniversal] = horarioDoFilme;
                 if (horarioDoFilme == 0) {
                     nomeDoFilme = sessao.getFilme3();
@@ -409,21 +398,28 @@ public class Compra {
                 System.out.println("Digite qual cadeira desejas: (Ex. A5 ouB11)");
                 in.nextLine();
                 posicaoDaCadeira = in.nextLine();
-                verificar = sala.preencherCadeira(posicaoDaCadeira, 3,
+                sala.preencherCadeira(posicaoDaCadeira, 3,
                         getHorarioDoFilme(), ContUniversal);
-                if (verificar == 0) {
-                    System.out.println("Cadeira escolhido com sucesso!");
-                    System.out.println("Boa compra! Obrigado");
-                    System.out.println("");
-                    valorBilhetes(aux, Salas.Sala.getMultiplicador(), delta);
-                    ListaQuantidadePrecoBilhete[ContUniversal] = precoBilhete;
+                if (ContUniversal == 0) {
+                    validar();
                 } else {
-                    quantidadeBilhetesQueCompra++;
+                    validar2();
                 }
+                System.out.println("Cadeira escolhido com sucesso!");
+                System.out.println("Boa compra! Obrigado");
+                System.out.println("");
+                valorBilhetes(aux, Salas.Sala.getMultiplicador(), delta);
+                ListaQuantidadePrecoBilhete[ContUniversal] = precoBilhete;
             } else {
                 sala.exibirSala4();
                 System.out.println("Escolha o filme: ");
                 this.horarioDoFilme = in.nextInt();
+                if (ContUniversal == 0) {
+                    validar();
+                } else {
+                    validar2();
+                }
+                ListaQuantidadeNumeroDaSala[ContUniversal] = numeroDaSala;
                 ListaQuantidadeHorario[ContUniversal] = horarioDoFilme;
                 if (horarioDoFilme == 0) {
                     nomeDoFilme = sessao.getFilme4();
@@ -442,23 +438,64 @@ public class Compra {
                 System.out.println("Digite qual cadeira desejas: (Ex. A5 ouB11)");
                 in.nextLine();
                 posicaoDaCadeira = in.nextLine();
-                verificar = sala.preencherCadeira(posicaoDaCadeira, 4,
+                sala.preencherCadeira(posicaoDaCadeira, 4,
                         getHorarioDoFilme(), ContUniversal);
-                if (verificar == 0) {
-                    System.out.println("Cadeira escolhido com sucesso!");
-                    System.out.println("Boa compra! Obrigado");
-                    System.out.println("");
-                    valorBilhetes(aux, Salas.Sala.getMultiplicador(), delta);
-                    ListaQuantidadePrecoBilhete[ContUniversal] = precoBilhete;
+                if (ContUniversal == 0) {
+                    validar();
                 } else {
-                    quantidadeBilhetesQueCompra++;
+                    validar2();
                 }
+                System.out.println("Cadeira escolhido com sucesso!");
+                System.out.println("Boa compra! Obrigado");
+                System.out.println("");
+                valorBilhetes(aux, Salas.Sala.getMultiplicador(), delta);
+                ListaQuantidadePrecoBilhete[ContUniversal] = precoBilhete;
             }
             System.out.println("Preço total do(s) ingresso(s) foi de: " +
-                    getPrecoBilhete());
+                    precoBilheteTotal);
             quantidadeBilhetesQueCompra--;
             ContUniversal++;
         } while (quantidadeBilhetesQueCompra != 0);
+        ContQuantidade++;
+        sala.clonar(1);
     }
 
+    public void validar() throws VendasException {
+        String dateTime = DateTimeFormatter.ofPattern("HH:mm").format(LocalDateTime.now());
+        if (this.horarioDoFilme > 3) {
+            throw new VendasException("Error de compra: O filme não está emcartaz!");
+        }
+        if (sala.getListaSessao()[this.horarioDoFilme].compareTo(dateTime) < 0) {
+            throw new VendasException("Error de compra: O filme já começou!");
+        }
+        if (sala.getContCadeira() == 151) {
+            sala.setContCadeira(0);
+            throw new VendasException("Não foi possível realizar a inserção! acadeira está ocupada ou inexistente");
+        }
+    }
+
+    public void validar2() throws VendasException {
+        String dateTime = DateTimeFormatter.ofPattern("HH:mm").format(LocalDateTime.now());
+        int i;
+        if (this.horarioDoFilme > 3) {
+            ListaQuantidadeBilhete[cloneContQuantidade] = quantidadeBilhetesQueCompra;
+            ContUniversal = 0;
+            sala.clonar(2);
+            throw new VendasException("Error de compra: O filme não está emcartaz!");
+        }
+        if (sala.getListaSessao()[this.horarioDoFilme].compareTo(dateTime) < 0) {
+            ListaQuantidadeBilhete[cloneContQuantidade] = quantidadeBilhetesQueCompra;
+            ContUniversal = 0;
+            sala.clonar(2);
+            throw new VendasException("Error de compra: O filme já começou!");
+        }
+        if (sala.getContCadeira() == 151) {
+            sala.setContCadeira(0);
+            precoBilheteTotal = precoBilheteTotal - precoBilhete;
+            ListaQuantidadeBilhete[cloneContQuantidade] = quantidadeBilhetesQueCompra;
+            ContUniversal = 0;
+            sala.clonar(2);
+            throw new VendasException("Não foi possível realizar a inserção! acadeira está ocupada ou inexistente");
+        }
+    }
 }

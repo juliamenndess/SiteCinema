@@ -21,4 +21,5 @@ public enum Salas {
         this.nome = nome;
         this.multiplicador = multiplicador;
     }
+
 }

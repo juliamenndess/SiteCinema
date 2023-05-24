@@ -1,5 +1,7 @@
 package Projeto;
 
+import java.util.Scanner;
+
 public class Sessao {
 	private Filme ListaFilme[] = new Filme[4];
 	private String[][] cadeiras = new String[10][15];
@@ -41,8 +43,8 @@ public class Sessao {
 		return ListaFilme;
 	}
 
-	public void setListaFilme(Filme[] listaFilme) {
-		ListaFilme = listaFilme;
+	public void setListaFilme(Filme listaFilme, int i) {
+		ListaFilme[i] = listaFilme;
 	}
 
 	public String getFilme1() {

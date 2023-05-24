@@ -110,17 +110,23 @@ public class Usuario {
         this.sexo = sexo;
     }
 
-    public void realizarCompra(int opcaoInserido) {
+    public int realizarCompra(int opcaoInserido) {
         switch (opcaoInserido) {
-            case 1: {
-                novoBilhete.compraBilhete();
+            case 1:
+                try {
+                    novoBilhete.compraBilhete();
+                } catch (VendasException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println();
+                    return -1;
+                }
                 break;
-            }
             case 2: {
                 novaComida.compraComidas();
                 break;
             }
         }
+        return 0;
     }
 
     public String toString() {

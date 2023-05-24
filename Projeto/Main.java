@@ -24,6 +24,7 @@ public class Main {
                 codigoDoCartao;
         int idade;
         char sexo;
+        int parar;
         System.out.println("Bem-Vindo! ");
         System.out.println("Cadastre-se no nosso site! ");
         System.out.print("Informe o user: ");
@@ -64,27 +65,33 @@ public class Main {
                 System.out.print("escolha a opção: ");
                 result = in.nextInt();
                 if (result == 3) {
-                    System.out.println("Ok! fim do programa");
+                    System.out.println("Ok! Cancelando a compra");
+                    System.out.println();
                 } else if (result == 1) {
                     if (novo.novoBilhete.getListaQuantidadeBilhete()[contUsuario - 1] != novo.novoBilhete
                             .getQuantidadeBilhetesQueCompra()) {
                         System.out.println("Você já fez uma compra debilhete");
                         System.out.println();
                     } else {
-                        novo.realizarCompra(result);
-                        int quantidade = novo.novoBilhete.getListaQuantidadeBilhete()[contUsuario - 1];
-                        clone = novo.novoBilhete.getQuantidadeBilhetesQueCompra();
-                        for (int i = 0; i < quantidade; i++) {
-                            novo.novoBilhete.setContUniversal(novo.novoBilhete.getContUniversal() - 1);
-                            Bilhete novoBilhete = new Bilhete(novo, novo.getNovoBilhete(),
-                                    novo.getNovoBilhete().getSala());
-                            listaBilhete[contBilhete] = novoBilhete;
-                            contBilhete++;
-                        }
-                        System.out.println("Seu Bilhete está pronto! ");
-                        novo.novoBilhete.setContUniversal(clone);
-                        for (int k = 0; k < contBilhete; k++) {
-                            System.out.println(listaBilhete[k]);
+                        parar = novo.realizarCompra(result);
+                        if (parar == -1) {
+                            System.out.println("Não foi possível continuar acompra, por favor, realize novamente! ");
+                            System.out.println();
+                        } else {
+                            int quantidade = novo.novoBilhete.getListaQuantidadeBilhete()[contUsuario - 1];
+                            clone = novo.novoBilhete.getQuantidadeBilhetesQueCompra();
+                            for (int i = 0; i < quantidade; i++) {
+                                novo.novoBilhete.setContUniversal(novo.novoBilhete.getContUniversal() - 1);
+                                Bilhete novoBilhete = new Bilhete(novo, novo.getNovoBilhete(),
+                                        novo.getNovoBilhete().getSala());
+                                listaBilhete[contBilhete] = novoBilhete;
+                                contBilhete++;
+                            }
+                            System.out.println("Seu Bilhete está pronto! ");
+                            novo.novoBilhete.setContUniversal(clone);
+                            for (int k = 0; k < contBilhete; k++) {
+                                System.out.println(listaBilhete[k]);
+                            }
                         }
                     }
                 } else {
