@@ -1,6 +1,9 @@
-package Projeto;
+package Projeto.main;
 
 import java.util.Scanner;
+
+import Projeto.modelo.bilhetes.Bilhete;
+import Projeto.modelo.entidades.Usuario;
 
 public class Main {
     static Scanner in = new Scanner(System.in);

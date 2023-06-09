@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.modelo.entidades;
 
 public class Estudante extends Usuario {
     public Estudante(String user, String cpf, String email, int idade, char sexo, String senha, String nomeDoCartao,

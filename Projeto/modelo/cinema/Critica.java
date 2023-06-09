@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.modelo.cinema;
 
 public class Critica {
     private double nota;

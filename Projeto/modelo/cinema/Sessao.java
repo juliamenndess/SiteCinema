@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.modelo.cinema;
 
 import java.util.Scanner;
 

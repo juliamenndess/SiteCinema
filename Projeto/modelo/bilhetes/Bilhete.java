@@ -1,4 +1,8 @@
-package Projeto;
+package Projeto.modelo.bilhetes;
+
+import Projeto.modelo.cinema.Sala;
+import Projeto.modelo.entidades.Usuario;
+import Projeto.servicos.compras.Compra;
 
 public class Bilhete {
     private String user, cpf;

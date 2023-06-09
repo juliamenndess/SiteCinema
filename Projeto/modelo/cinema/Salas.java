@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.modelo.cinema;
 
 public enum Salas {
     Sala("Sala comum ", 1.0),

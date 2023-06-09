@@ -1,4 +1,6 @@
-package Projeto;
+package Projeto.servicos.gerenciamento;
+
+import Projeto.modelo.cinema.Filme;
 
 public interface GerenciaFilme {
     public void incluirFilme();

@@ -1,8 +1,10 @@
-package Projeto;
+package Projeto.persistencia.implementacoes;
 
 import java.util.ArrayList;
 
 import java.util.List;
+
+import Projeto.persistencia.interfaces.IPersistencia;
 
 public class Persistencia<T> implements IPersistencia<T> {
     private List<T> lista = new ArrayList<>();

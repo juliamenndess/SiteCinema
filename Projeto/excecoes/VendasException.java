@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.excecoes;
 
 public class VendasException extends Exception{
     public VendasException (String msg) {

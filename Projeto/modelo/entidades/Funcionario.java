@@ -1,16 +1,23 @@
-package Projeto;
+package Projeto.modelo.entidades;
 
-import java.util.Scanner;
+import java.util.*;
 
-public class Administrador extends Base implements GerenciaFilme {
+import Projeto.main.Base;
+import Projeto.modelo.cinema.Filme;
+import Projeto.persistencia.implementacoes.Persistencia;
+import Projeto.persistencia.interfaces.IPersistencia;
+import Projeto.servicos.gerenciamento.GerenciaFilme;
+
+
+public class Funcionario extends Base implements GerenciaFilme {
     IPersistencia<Filme> persistenciaFilmes;
     IPersistencia<Usuario> persistenciaUsuarios;
     private double salario;
-    private String filmeNovo, duracaoNova, sinopseNova, ID, filmeNovo1;
+    private String filmeNovo, duracaoNova, sinopseNova;
     private double preco;
     static Scanner in = new Scanner(System.in);
 
-    public Administrador(String nome, String email, int idade, double salario) {
+    public Funcionario(String nome, String email, int idade, double salario) {
         super(nome, email, idade);
         this.salario = salario;
         this.persistenciaFilmes = new Persistencia<>();
@@ -25,14 +32,6 @@ public class Administrador extends Base implements GerenciaFilme {
         this.salario = salario;
     }
 
-    public String getID() {
-        return ID;
-    }
-
-    public void setSalario(String ID) {
-        this.ID = ID;
-    }
-
     public void incluirFilme() {
         infoFilme();
         Filme filmeA = new Filme(filmeNovo, duracaoNova, sinopseNova, preco);
@@ -41,13 +40,13 @@ public class Administrador extends Base implements GerenciaFilme {
 
     public void alterarFilme(Filme antigo) {
         infoFilme();
-        Filme FilmeA = new Filme(filmeNovo1, duracaoNova, sinopseNova, preco);
+        Filme FilmeA = new Filme(filmeNovo, duracaoNova, sinopseNova, preco);
         persistenciaFilmes.alterar(FilmeA, antigo);
     }
 
     public void infoFilme() {
         System.out.println("Nome do filme: ");
-        filmeNovo1 = in.nextLine();
+        filmeNovo = in.nextLine();
         System.out.println("Duração do filme: ");
         duracaoNova = in.nextLine();
         System.out.println("Sinopse do filme: ");
@@ -58,7 +57,7 @@ public class Administrador extends Base implements GerenciaFilme {
 
     public void excluirFilme() {
         infoFilme();
-        Filme FilmeA = new Filme(filmeNovo1, duracaoNova, sinopseNova, preco);
+        Filme FilmeA = new Filme(filmeNovo, duracaoNova, sinopseNova, preco);
         persistenciaFilmes.remover(FilmeA);
     }
 
@@ -73,4 +72,5 @@ public class Administrador extends Base implements GerenciaFilme {
     public void excluirUsuario(Usuario novo) {
         persistenciaUsuarios.remover(novo);
     }
+
 }

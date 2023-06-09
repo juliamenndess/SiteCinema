@@ -1,6 +1,11 @@
-package Projeto;
+package Projeto.servicos.compras;
 
 import java.util.Scanner;
+
+import Projeto.excecoes.VendasException;
+import Projeto.modelo.cinema.Sala;
+import Projeto.modelo.cinema.Salas;
+import Projeto.modelo.cinema.Sessao;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.servicos.compras;
 
 public enum CupomPromocional {
     Individual("Individual", 1),

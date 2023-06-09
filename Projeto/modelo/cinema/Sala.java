@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.modelo.cinema;
 
 public class Sala {
     private String[] listaSessao = new String[4];

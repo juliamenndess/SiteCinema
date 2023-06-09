@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.modelo.entidades;
 
 public class Critico extends Usuario {
     private String origem;

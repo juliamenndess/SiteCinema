@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.persistencia.interfaces;
 
 public interface IPersistencia<T> {
     boolean inserir(T item);

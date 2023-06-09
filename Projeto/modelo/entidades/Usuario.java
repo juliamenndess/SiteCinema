@@ -1,11 +1,14 @@
-package Projeto;
+package Projeto.modelo.entidades;
+
+import Projeto.excecoes.VendasException;
+import Projeto.servicos.compras.Compra;
 
 public class Usuario {
     private String user, cpf, senha, email, nomeDoCartao, numeroDoCartao,
             codigoDoCartao;
     private int idade;
     private char sexo;
-    Compra novoBilhete = new Compra();
+    public Compra novoBilhete = new Compra();
     Compra novaComida = new Compra();
 
     public Usuario(String user, String cpf, String email, int idade, char sexo, String senha,

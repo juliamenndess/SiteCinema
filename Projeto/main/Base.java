@@ -1,4 +1,6 @@
-package Projeto;
+package Projeto.main;
+
+import Projeto.modelo.entidades.Usuario;
 
 public abstract class Base {
     private String nome, email;

@@ -1,4 +1,4 @@
-package Projeto;
+package Projeto.servicos.compras;
 
 public enum Produtos {
     PIPOCA("Pipoca", 20.0, 1),
